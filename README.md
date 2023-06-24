@@ -17,6 +17,7 @@ _**Methods**_. The Galileo/NIMS mosaic, in units of calibrated radiance factor (
 We introduce the hyperspectral dataset from the Galileo/NIMS instrument. Data are read, displayed and processed in Python. Descriptions of selected spectra from specific regions of interest, well-representative of the spectral diversity of the surface, are thus provided. This set of spectra is the one given to the linear spectral mixing model for abundance retrieval. We will rely on an existing database of laboratory reference spectra, acquired at a temperature representative of the studied surface, to decompose the measured spectral profiles into a limited number of components and their relative abundances. Finally, we present best-estimate abundance values of the different endmembers identified by the model, providing maps describing the chemical composition of the uppermost millimeter-thick surface layer. 
 
 ### Pipeline
+* [Useful functions](#Useful_functions)
 * [Instrument, Observations and Dataset](#Instrument_obs_dataset)
 * [Description of Spectral Features](#Spectral_features)
 * [Regions Of Interest](#ROI)
@@ -61,6 +62,11 @@ import tools
 
 Many of these are automatically included in Anaconda distributions. Additional modules, like the `astro_tools_master` (credits to [Oliver King](https://github.com/ortk95/astro-tools)) can be installed using the usual `conda install ...` or pip `install ...`. 
 
+### Useful functions
+
+bla bla bla
+
+### Instrument, Observations and Dataset
 ### Dataset G1GNGLOBAL01A1
 >The NIMS instrument is a whiskbroom-type scanner, therefore imaging is performed by a combination of one-dimensional mirror spatial scanning, coupled with orthogonal spacecraft scan-platform motion, yielding two-dimensional images for each of the NIMS wavelengths. The spectral coverage is **0.7 to 5.2 micrometers**: this spectral region includes the reflected-sunlight and thermal-radiation regimes for many Solar System objects, containing diagnostic spectral signatures arising from molecular vibrational transitions (and some electronic transitions) of both solid and gaseous species. The instrument’s Instantaneous Field Of View (IFOV) is 0.5 mrad, giving a spatial resolution of, for example, about 5 km at 10000 km distance.
 
