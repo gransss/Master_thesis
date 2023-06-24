@@ -16,7 +16,7 @@ _**Methods**_. The Galileo/NIMS mosaic, in units of calibrated radiance factor (
 ## Spectral Unmixing
 Analysis of the composition of Ganymede’s surface are presented here. We introduce the hyperspectral dataset from the Galileo/NIMS instrument. Data are read, displayed and processed in Python. Descriptions of selected spectra from specific regions of interest, well-representative of the spectral diversity of the surface, are thus provided. This set of spectra is the one given to the linear spectral mixing model for abundance retrieval. We will rely on an existing database of laboratory reference spectra, acquired at a temperature representative of the studied surface, to decompose the measured spectral profiles into a limited number of components and their relative abundances. Finally, we present best-estimate abundance values of the different endmembers identified by the model, providing maps describing the chemical composition of the uppermost millimeter-thick surface layer. 
 
-### Sections
+### Pipeline
 * [Instrument, Observations and Dataset](#Instrument_obs_dataset)
 * [Description of Spectral Features](#Spectral_features)
 * [Regions Of Interest](#ROI)
@@ -60,3 +60,16 @@ import tools
 ```
 
 Many of these are automatically included in Anaconda distributions. Additional modules, like the `astro_tools_master` (credits to [Oliver King](https://github.com/ortk95/astro-tools)) can be installed using the usual `conda install ...` or pip `install ...`. 
+
+### Dataset
+
+| Name        | Description      |
+| ------------- |:------------- | 
+| g1g002ci.LBL      | text file containing a description of the data and the associated labels, following the standards of the Planetary Data System |
+| g1g002ci.qub.dat      | Data cube calibrated in radiance factor also known as **I/F**, which is the ratio of the measured radiance to that of a Lambertian surface illuminated and viewed from the normal direction, at the same distance from the Sun.  |  
+| g1g002ci.qub.dat.hdr |   Header information relative to the file _g1g002ci.qub.dat_ |   
+| g1g002ci.qub.geo | File containing the so called 'backplanes', concerning geometrical parameters of the planetary observation |
+| g1g002ci.qub.geo.hdr | Header information relative to the file _g1g002ci.qub.geo_|
+
+
+
