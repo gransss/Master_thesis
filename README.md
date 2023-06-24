@@ -3,7 +3,7 @@ _Title_ Surface composition of Jupiter’s icy moon Ganymede: clues about habita
 
 ## Table of contents
 * [Introduction](#Introduction)
-* [Spectral Unmixing](#Specteral_unmixing)
+* [Spectral Unmixing](#Spectral_unmixing)
 
 
 ## Introduction
@@ -217,33 +217,200 @@ INTERCEPT_ALTITUDES = g1g002_geo[6,:,:]
 PHASE_ANGLE_STD_DEVS = g1g002_geo[7,:,:]
 SPECTRAL_RADIANCE_STD_DEVS = g1g002_geo[8,:,:]
 ```
-```Python
-SUB_SPACECRAFT_LATITUDE =  -9.11
-SUB_SPACECRAFT_LONGITUDE = 182.46
-find_YX_from_LatLon(-9.11, 182.46)
-```
 
 > Latitude and Longitude
 ```Python
-# find max and min latitude
+# Find max and min latitude values
 LAT_min = np.nanmin(LATITUDES[LATITUDES != -np.inf]) 
 LAT_max = np.amax(LATITUDES)
-print("The max latitude value is: ",LAT_max)
-print("The min latitude value is: ",LAT_min)
+print("The max latitude value is: ", LAT_max)
+print("The min latitude value is: ", LAT_min)
 
-# find max and min longitude
+# Find max and min longitude values
 LONG_min = np.nanmin(LONGITUDES[LONGITUDES != -np.inf]) 
 LONG_max = np.amax(LONGITUDES)
-print("\nThe max longitude value is: ",LONG_max)
-print("The min longitude value is: ",LONG_min)
+print("\nThe max longitude value is: ", LONG_max)
+print("The min longitude value is: ", LONG_min)
 ```
 ```Python
 plt.style.use('dark_background')
 fig, (ax1, ax2, ax3) = plt.subplots(1,3, figsize=(14,8))
 #fig.subplots_adjust(wspace = 0.15)
-geo_image(ax1, 'Latitude', LATITUDES, 18, LAT_min, LAT_max, cm.Spectral, 'Degrees (°)') #\nApproximate location: 90°S to 70°N
-geo_image(ax2, 'Longitude', LONGITUDES, 19, LONG_min, LONG_max, cm.Spectral, 'Degrees (°)') #\nApproximate location: 90° to 240°W
+geo_image(ax1, 'Latitude', LATITUDES, 18, LAT_min, LAT_max, cm.Spectral, 'Degrees (°)')     
+geo_image(ax2, 'Longitude', LONGITUDES, 19, LONG_min, LONG_max, cm.Spectral, 'Degrees (°)') 
 fig.delaxes(ax3)
 plt.show()
-#fig.savefig('g1g002latlon2.png')
 ```
+
+<img width="550" alt="Screenshot 2023-06-24 alle 22 54 56" src="https://github.com/gransss/Master_thesis/assets/136255551/3d749278-5971-4855-8e84-12265fc5a5a7">
+
+> Set a mask based on LAT and LONG data (useful for subsequent analysis)
+```Python
+mask_L = (LATITUDES>LAT_min)&(LATITUDES<LAT_max)
+mask_L_3D = np.zeros(g1g002_raw.shape, dtype=bool)
+for t in range(len(wavelength)):
+    mask_L_3D[t,:,:] = mask_L
+    
+# Plot the mask
+fig, (ax1) = plt.subplots(figsize=(5,5))
+line_sample(ax1, 'Mask of the whole disk\nWHITE: masked\nBLACK: unmasked')
+ax1.imshow(~mask_L_3D[0], cmap=cm.gray)
+circle = plt.Circle((50,60), 46.5, alpha=0.4, color='black', ls='--', linewidth=0.5, fill=False)
+ax1.add_patch(circle)
+plt.show()
+```
+
+<img width="275" alt="Screenshot 2023-06-24 alle 22 55 18" src="https://github.com/gransss/Master_thesis/assets/136255551/b82423d9-31c5-4546-be7b-cbb1647146d7">
+
+> Incidence angle, emission angle, and phase angle
+```Python
+# Find max and min incidence angle values
+INC_ANGLE_min = np.nanmin(INCIDENCE_ANGLES[INCIDENCE_ANGLES != -np.inf]) 
+INC_ANGLE_max = np.amax(INCIDENCE_ANGLES)
+print("The max incidence angle value is: ",INC_ANGLE_max)
+print("The min incidence angle value is: ",INC_ANGLE_min)
+
+# Find max and min emission angle values
+EMIS_ANGLE_min = np.nanmin(EMISSION_ANGLES[EMISSION_ANGLES != -np.inf]) 
+EMIS_ANGLE_max = np.amax(EMISSION_ANGLES)
+print("\nThe max emission angle value is: ",EMIS_ANGLE_max)
+print("The min emission angle value is: ",EMIS_ANGLE_min)
+
+# Find max and min phase angle values
+PHASE_min = np.nanmin(PHASE_ANGLE[PHASE_ANGLE != -np.inf]) 
+PHASE_max = np.amax(PHASE_ANGLE)
+print("\nThe max phase angle value is: ",PHASE_max)
+print("The min phase angle value is: ",PHASE_min)
+```
+
+```Python
+fig, (ax1, ax2, ax3) = plt.subplots(1,3, figsize=(14,7))
+fig.subplots_adjust(wspace = 0.15)
+geo_image(ax1, 'Incidence Angle $i$', np.ma.masked_array(INCIDENCE_ANGLES, ~mask_L), 16, INC_ANGLE_min, INC_ANGLE_max, cm.Spectral,'Degrees (°)')
+ax1.scatter(74,62, s=1, color='black', marker='s', label='subsolar point')
+geo_image(ax2, 'Emission Angle $e$', np.ma.masked_array(EMISSION_ANGLES, ~mask_L), 12, EMIS_ANGLE_min, EMIS_ANGLE_max, cm.Spectral, 'Degrees (°)')
+geo_image(ax3, 'Phase Angle $\phi$', np.ma.masked_array(PHASE_ANGLE, ~mask_L), 8, PHASE_min, PHASE_max, cm.Spectral, 'Degrees (°)')
+ax1.legend()
+plt.show()
+```
+
+<img width="826" alt="Screenshot 2023-06-24 alle 22 57 47" src="https://github.com/gransss/Master_thesis/assets/136255551/aabffe20-4de8-428b-95c0-30e8b5a3bb8c">
+
+
+#### Radiance factor data analysis
+All the data cubes have been calibrated in radiance factor r_F = \pi*r where the r is the bidirectional reflectance of the surface. The _calibrated_ radiance factor, indicated with **I/F**, is the ratio between the radiance measured by the instrument on the target and the solar radiance scaled for the heliocentric distance of the target expressed in AU. In this way, the dimensionless quantity I/F describes the reflectivity of a target as a function of wavelength, having automatically excluded the spectral signatures of solar nature. 
+
+```Python
+x0, y0, r0 = 50. ,60. ,46.5
+fig, (ax1, ax2) = plt.subplots(1,2, figsize=(18,6))
+fig.subplots_adjust(wspace = 0.07)
+hsi_image(ax1, 'G1GNGLOBAL01A (0.7-$\mu m$ image)\n90°S to 70°N - 90° to 240°W', g1g002_raw, 0, 'Radiance Factor I/F')
+hsi_tot_spectrum(ax2, 'Radiance Factor spectra, range 0.7-5.2 $\mu m$\n Single Galileo/NIMS pixels | 12000 pixels', g1g002_raw)
+plt.show()
+```
+<img width="917" alt="Screenshot 2023-06-24 alle 23 00 52" src="https://github.com/gransss/Master_thesis/assets/136255551/45affe85-7415-4d6d-b211-0fd09110cc8a">
+
+> Adjust the data
+```Python
+# Remove negative values
+g1g002_raw_adj = np.where(g1g002_raw<0, 0, g1g002_raw)
+g1g002_raw_adj_1 = g1g002_raw_adj.copy()
+g1g002_raw_adj_1[g1g002_raw_adj_1 == 0] = np.nan
+print("The {} called 'g1g002_raw_adj' has the following shape"   # Output: (228, 120, 100)
+       ": {}".format(g1g002_raw_adj.__class__,g1g002_raw_adj.shape))
+
+# MASK FOR i,e BELONGING TO THE DAYSIDE OF GANYMEDE
+mask_i = (INCIDENCE_ANGLES>0)&(INCIDENCE_ANGLES<90)&(LATITUDES>LAT_min)&(LATITUDES<LAT_max)
+mask_i_3D = np.zeros(g1g002_raw.shape, dtype=bool)
+for t in range(len(wavelength)):
+    mask_i_3D[t,:,:] = mask_i
+    
+# Plot the mask
+fig, (ax1) = plt.subplots(figsize=(5,5))
+line_sample(ax1, 'Dayside of Ganymede\n(WHITE: masked | BLACK: unmasked)')
+ax1.imshow(~mask_i_3D[0], cmap=cm.gray)
+circle = plt.Circle((50,60), 46.5, alpha=0.4, color='black', ls='--', linewidth=0.5, fill=False)
+ax1.add_patch(circle)
+plt.show()
+```
+<img width="275" alt="Screenshot 2023-06-24 alle 23 02 16" src="https://github.com/gransss/Master_thesis/assets/136255551/7295b356-40cc-43a5-86e4-8e7f5ff393eb">
+
+```Python
+fig, (ax1, ax2) = plt.subplots(1,2, figsize=(14,7))
+fig.subplots_adjust(wspace = 0.1)
+hsi_image(ax1, 'G1GNGLOBAL01A (0.7-$\mu m$ image)\n90°S to 70°N - 90° to 240°W', g1g002_raw, 0, 'Radiance Factor I/F')
+hsi_image(ax2, 'G1GNGLOBAL01A, adjusted (0.7-$\mu m$ image)\n90°S to 70°N - 90° to 240°W', g1g002_raw_adj, 0, 'Radiance Factor I/F')
+plt.show()
+```
+<img width="731" alt="Screenshot 2023-06-24 alle 23 03 22" src="https://github.com/gransss/Master_thesis/assets/136255551/70014295-ed4a-47b7-9a07-302f4f8f8726">
+
+```Python
+# Compute the mean and median along axes (1,2)
+avg_spectrum_global = np.nanmean(np.ma.masked_array(g1g002_raw_adj, ~mask_i_3D), axis=(1,2)) 
+median_spectrum_global = np.ma.median(np.ma.masked_array(g1g002_raw_adj, ~mask_i_3D), axis=(1,2)) 
+```
+
+```Python
+fig, (ax1, ax2) = plt.subplots(1,2, figsize=(18,5))
+ax1.set_ylim(-0.2, 0.8)
+hsi_tot_spectrum(ax1, 'Radiance Factor spectra (original dataset), range 0.7-5.2 $\mu m$\n Single Galileo/NIMS pixels | 12000 pixels', g1g002_raw)
+
+ax2.set_ylim(-0.2, 0.8)
+hsi_tot_spectrum(ax2, 'Radiance Factor spectra (adjusted dataset), range 0.7-5.2 $\mu m$\n Single Galileo/NIMS pixels | 12000 pixels', np.ma.masked_array(g1g002_raw_adj, ~mask_i_3D))
+#ax2.errorbar(wavel, avg_spectrum_global, yerr=std_spectrum_global, elinewidth=0.3, color='gold', linewidth=1, label='Mean spectrum')
+ax2.plot(wavel, avg_spectrum_global, color='snow', linewidth=1, label='Mean')
+ax2.plot(wavel, median_spectrum_global, color='orangered', linewidth=1, label='Median')
+ax2.legend()
+plt.show()
+```
+<img width="1065" alt="Screenshot 2023-06-24 alle 23 04 12" src="https://github.com/gransss/Master_thesis/assets/136255551/10635d2e-b901-4d7d-8e71-5aaf37b72375">
+
+> Smoothing of the data (through **Savitzky-Golay** filter)
+```Python
+g1g002_smooth = sp.signal.savgol_filter(g1g002_raw, 7, 3)           # smoothed data
+g1g002_smooth = np.where(g1g002_smooth<0, 0, g1g002_smooth)         # remove negative values
+
+# Compute the SMOOTHED mean and median along axes (1,2)
+avg_spectrum_global_SM = sp.signal.savgol_filter(avg_spectrum_global, 7,2)  
+median_spectrum_global_SM = sp.signal.savgol_filter(median_spectrum_global, 7,2)
+```
+
+```Python
+fig, (ax1, ax2) = plt.subplots(1,2, figsize=(18,5))
+ax1.set_ylim(-0.2, 0.8)
+hsi_tot_spectrum(ax1, 'Radiance Factor spectra (original dataset), range 0.7-5.2 $\mu m$\n Single Galileo/NIMS pixels | 12000 pixels', g1g002_raw)
+ax2.set_ylim(0., 0.8)
+ax2.set_xlim(0.7101,5.2365)
+hsi_tot_spectrum(ax2, 'Radiance Factor spectra (smoothed dataset), range 0.7-5.2 $\mu m$\n Single Galileo/NIMS pixels | 12000 pixels', g1g002_smooth)
+ax2.plot(wavel, avg_spectrum_global_SM, color='snow', linewidth=1, label='Mean')
+ax2.plot(wavel, median_spectrum_global_SM, color='orangered', linewidth=1, label='Median')
+ax2.legend(frameon=False)
+plt.show()
+```
+<img width="1064" alt="Screenshot 2023-06-24 alle 23 05 27" src="https://github.com/gransss/Master_thesis/assets/136255551/d4fbdd4e-8869-4be7-a215-fa8cfd17221d">
+
+```Python
+fig, (ax1, ax2) = plt.subplots(1,2, figsize=(21,6))
+fig.subplots_adjust(wspace = -0.05)
+hsi_image(ax1, 'G1GNGLOBAL01A (0.7-$\mu m$ image)', g1g002_raw_adj, 0, 'I/F')
+circle = plt.Circle((50,60), 46.5, alpha=0.4, color='white', ls='--', linewidth=0.5, fill=False)
+ax1.add_patch(circle)
+ax2.set_xlabel('Wavelength ($\mu m$)', fontsize=10)
+ax2.set_ylabel('Radiance Factor $I/F$', fontsize=10)
+ax2.set_ylim(0., 0.75)
+ax2.set_xlim(0.7101, 5.2365)
+#ax2.yaxis.tick_right()
+#ax2.yaxis.set_label_position("right")
+ax2.plot(wavel, np.reshape(g1g002_smooth, [228, 12000]), color='gray', linewidth=0.1, alpha=0.25)
+ax2.grid(True, lw=0.5, zorder=0, alpha=0.20)
+ax2.set_title('Radiance factor spectra, range 0.7-5.2 $\mu m$\n Single Galileo/NIMS pixels | 12000 pixels')
+#ax2.errorbar(wavel, avg_spectrum_filt_corr, yerr=std_spectrum_filt_corr, color='gold', ecolor='gold', elinewidth=0.5, barsabove=False, linewidth=1, label='Mean (Akimov, 0°<i<60°, 0°<e<60°)')
+ax2.plot(wavel, avg_spectrum_global_SM, color='snow', linewidth=1, label='Mean')
+ax2.plot(wavel, median_spectrum_global_SM, color='orangered', linewidth=1, label='Median')
+ax2.legend(frameon=False)
+plt.show()
+```
+<img width="1027" alt="Screenshot 2023-06-24 alle 23 06 13" src="https://github.com/gransss/Master_thesis/assets/136255551/288c3398-e1e6-4057-ab7a-5c1c5819052d">
+
+
+
