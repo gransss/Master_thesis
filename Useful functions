@@ -1,0 +1,25 @@
+Useful function
+
+```Python
+def line_sample(ax, name):
+    """
+    Set the specific visualization of NIMS images (120x100 grid)
+       ax = name of the axes
+       name = name of the plot
+    """
+    ax.set_xlim(0, 99)
+    ax.set_ylim(119, 0)
+    ax.set_xlabel('SAMPLE', fontsize=8, loc='left')
+    ax.set_ylabel('LINE', fontsize=8, loc='top')
+    ax.yaxis.set_label_coords(-0.02,0.07)
+    ax.xaxis.set_label_coords(0.05,-0.03)
+    major_ticksx = (0,25,50,75,100)
+    minor_ticksx = np.arange(0, 100, 1)
+    major_ticksy = (0,25,50,75,100)
+    minor_ticksy = np.arange(0, 120, 1)
+    ax.set_xticks(major_ticksx)
+    ax.set_xticks(minor_ticksx, minor=True)
+    ax.set_yticks(major_ticksy)
+    ax.set_yticks(minor_ticksy, minor=True)
+    ax.set_title(str(name))
+```
