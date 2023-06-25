@@ -3,26 +3,29 @@ _Title_ Surface composition of Jupiter’s icy moon Ganymede: clues about habita
 
 ## Table of contents
 * [Introduction](#Introduction)
-* [Spectral Unmixing](#Spectral_unmixing)
+* [Spectral Unmixing](#Spectral-Unmixing)
 
+---
 
-## Introduction
+## Introduction 
 **_Context_**. The study of astrobiologically compelling targets is critical if we are to understand biology as a potentially common phenomenon in our Galaxy and beyond. Liquid water, a keystone of habitable environments for life as we know it, was discovered to be hosted as a global ocean beneath Ganymede’s icy crust, providing conceptual basis within which new theories on habitability can be constructed.
 
 _**Aims**_. Investigation of Ganymede’s surface composition, that is presented in this work, could provide a window into the habitability of its oceans. Following a computational approach well-established within the remote-sensing scientific community, we derive our study from a _linear mixing_ modeling of a hyperspectral mosaic acquired by the Near-Infrared Mapping Spectrometer (NIMS), onboard the NASA Galileo spacecraft (1995-2003). We aim at deriving abundance maps of constituent spectral endmembers, related to pure species measured in the laboratory, under the assumption that they combine linearly to produce the surface’s measured spectral profiles.
 
 _**Methods**_. The Galileo/NIMS mosaic, in units of calibrated radiance factor (I/F), is imported, processed and photometrically corrected. By exploiting a library of reference spectral endmembers measured in the laboratory, an unmixing model is implemented through a fully constrained least squares minimization (FCLS) algorithm, applied to a subset of spectra representative of selected regions of interest on the surface. The spectra are iteratively modeled with different combinations of endmembers, the best of which provides abundance values and related maps describing the chemical composition of the uppermost millimeter-thick surface layer.
+
+---
 	
 ## Spectral Unmixing
-We introduce the hyperspectral dataset from the Galileo/NIMS instrument. Data are read, displayed and processed in Python. Descriptions of selected spectra from specific regions of interest, well-representative of the spectral diversity of the surface, are thus provided. This set of spectra is the one given to the linear spectral mixing model for abundance retrieval. We will rely on an existing database of laboratory reference spectra, acquired at a temperature representative of the studied surface, to decompose the measured spectral profiles into a limited number of components and their relative abundances. Finally, we present best-estimate abundance values of the different endmembers identified by the model, providing maps describing the chemical composition of the uppermost millimeter-thick surface layer. 
+Section ["Instrument, Observations and Dataset"](#Instrument,-Observations-and-Dataset) introduces the hyperspectral dataset from the Galileo/NIMS instrument. Data are read, displayed and processed in Python. Section ["Description of Spectral Features"](#Description-of-Spectral-Features) and Section ["Regions Of Interest"](#Regions-Of-Interest) provide descriptions of selected spectra from specific regions of interest, well-representative of the spectral diversity of the surface. This set of spectra is the one given to the linear spectral mixing model described in Section ["Linear Mixture Spectral Modeling"](#Linear-Mixture-Spectral-Modeling) for abundance retrieval. We will rely on an existing database of laboratory reference spectra, acquired at a temperature representative of the studied surface, to decompose the measured spectral profiles into a limited number of components and their relative abundances. Finally, Section ["Compositional Maps"](#Compositional-Maps) presents best-estimate abundance values of the dif- ferent endmembers identified by the model, providing maps describing the chemical composition of the uppermost millimeter-thick surface layer. 
 
 ### Pipeline
-* [Useful functions](#Useful_functions)
-* [Instrument, Observations and Dataset](#Instrument_obs_dataset)
-* [Description of Spectral Features](#Spectral_features)
-* [Regions Of Interest](#ROI)
-* [Linear Mixture Spectral Modeling](#Modeling)
-* [Compositional Maps](#Maps)
+* [Useful functions](#Useful-functions)
+* [Instrument, Observations and Dataset](#Instrument,-Observations-and-Dataset)
+* [Description of Spectral Features](#Description-of-Spectral-Features)
+* [Regions Of Interest](#Regions-Of-Interest)
+* [Linear Mixture Spectral Modeling](#Linear-Mixture-Spectral-Modeling)
+* [Compositional Maps](#Compositional-Maps)
 
 The Python packages required for running all functions are:
 
