@@ -65,9 +65,13 @@ import tools
 
 Many of these are automatically included in Anaconda distributions. Additional modules, like the `astro_tools_master` (credits to [Oliver King](https://github.com/ortk95/astro-tools)) can be installed using the usual `conda install ...` or pip `install ...`. 
 
+---
+
 ### Useful functions
 
 bla bla bla
+
+---
 
 ### Instrument, Observations and Dataset
 ### Dataset G1GNGLOBAL01A1
@@ -637,3 +641,25 @@ plt.show()
 <img width="954" alt="Screenshot 2023-06-24 alle 23 45 05" src="https://github.com/gransss/Master_thesis/assets/136255551/a4a0538d-ca20-4798-bab3-0b74af70363b">
 
 #### Photometric correction for i<90° data
+
+
+
+
+
+---
+
+### Description of Spectral Features
+
+
+---
+
+### Regions Of Interest
+
+---
+
+### Linear Mixture Spectral Modeling
+
+---
+
+### Compositional Maps
+
