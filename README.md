@@ -69,7 +69,7 @@ Many of these are automatically included in Anaconda distributions. Additional m
 
 ### Useful functions
 
-Some useful, recurring functions which are used in the code. They are found in the file [Useful functions](Master_thesis/Useful_functions/Useful_functions.md)
+Some useful, recurring functions which are used in the code. They are found in the file [Useful functions](Useful_functions/Useful_functions.md)
 
 ---
 
