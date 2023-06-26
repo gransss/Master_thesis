@@ -17,11 +17,11 @@ _**Methods**_. The Galileo/NIMS mosaic, in units of calibrated radiance factor (
 ---
 	
 ## Spectral Unmixing
-Section ["Instrument, Observations and Dataset"](#Instrument,-Observations-and-Dataset) introduces the hyperspectral dataset from the Galileo/NIMS instrument. Data are read, displayed and processed in Python. Section ["Description of Spectral Features"](#Description-of-Spectral-Features) and Section ["Regions Of Interest"](#Regions-Of-Interest) provide descriptions of selected spectra from specific regions of interest, well-representative of the spectral diversity of the surface. This set of spectra is the one given to the linear spectral mixing model described in Section ["Linear Mixture Spectral Modeling"](#Linear-Mixture-Spectral-Modeling) for abundance retrieval. We will rely on an existing database of laboratory reference spectra, acquired at a temperature representative of the studied surface, to decompose the measured spectral profiles into a limited number of components and their relative abundances. Finally, Section ["Compositional Maps"](#Compositional-Maps) presents best-estimate abundance values of the dif- ferent endmembers identified by the model, providing maps describing the chemical composition of the uppermost millimeter-thick surface layer. 
+Section ["Observations and Dataset"](#Observations-and-Dataset) introduces the hyperspectral dataset from the Galileo/NIMS instrument. Data are read, displayed and processed in Python. Section ["Description of Spectral Features"](#Description-of-Spectral-Features) and Section ["Regions Of Interest"](#Regions-Of-Interest) provide descriptions of selected spectra from specific regions of interest, well-representative of the spectral diversity of the surface. This set of spectra is the one given to the linear spectral mixing model described in Section ["Linear Mixture Spectral Modeling"](#Linear-Mixture-Spectral-Modeling) for abundance retrieval. We will rely on an existing database of laboratory reference spectra, acquired at a temperature representative of the studied surface, to decompose the measured spectral profiles into a limited number of components and their relative abundances. Finally, Section ["Compositional Maps"](#Compositional-Maps) presents best-estimate abundance values of the dif- ferent endmembers identified by the model, providing maps describing the chemical composition of the uppermost millimeter-thick surface layer. 
 
 ### Pipeline
 * [Useful functions](#Useful-functions)
-* [Dataset](#Dataset)
+* [Observations and Dataset](#Observations-and-Dataset)
 * [Description of Spectral Features](#Description-of-Spectral-Features)
 * [Regions Of Interest](#Regions-Of-Interest)
 * [Linear Mixture Spectral Modeling](#Linear-Mixture-Spectral-Modeling)
