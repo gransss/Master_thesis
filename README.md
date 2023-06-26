@@ -97,7 +97,7 @@ The natural output of an imaging spectrometer like NIMS is a **hyperspectral dat
 | g1g002ci.qub.geo | File containing the so called 'backplanes', concerning geometrical parameters of the planetary observation. |
 | g1g002ci.qub.geo.hdr | Header information relative to the file _g1g002ci.qub.geo_|
 
-The code processing the hyperspectral data cube G1GNGLOBAL01A1 is found in the directory [Dataset](#Dataset/01_Dataset.md).
+The code processing the hyperspectral data cube G1GNGLOBAL01A1 is found in the directory [Dataset](#Instrument_Observations_and_Dataset/01_Dataset.md).
 
 ---
 
@@ -106,7 +106,7 @@ Spatially, the cube is composed of 228 images, each one composed of 120 × 100 p
 <img width="487" alt="image" src="https://github.com/gransss/Master_thesis/assets/136255551/92fee51e-89ed-4ab6-8cd0-16fadb2b2b39">
 
 > The _calibrated_ radiance factor, indicated with **I/F**, is the ratio between the radiance measured by the instrument on the target and the solar radiance scaled for the heliocentric distance of the target expressed in AU. In this way, I/F is a dimensionless quantity describing the reflectivity of a target as a function of wavelength, having automatically excluded the spectral signatures of solar nature. 
-> **I/F is _not_ a reflectance**, since it does not account for **_photometric effects_** due to the peculiar illumination/observation geometry, and moreover it can include the target’s thermal emission (which however is negligible for Ganymede up to 5 micrometers). In the Section [Photometric Correction](#Dataset/03_Photometric_correction.md) it will be explained how this correction was applied in the data. 
+> **I/F is _not_ a reflectance**, since it does not account for **_photometric effects_** due to the peculiar illumination/observation geometry, and moreover it can include the target’s thermal emission (which however is negligible for Ganymede up to 5 micrometers). In the Section [Photometric Correction](##Instrument_Observations_and_Dataset/03_Photometric_correction.md) it will be explained how this correction was applied in the data. 
 
 
 [^note2]: The data reduction routine transforms the raw observations into cleaned and calibrated data sets that are ready for scientific use. The reduction accounts for detector properties and observation conditions to ensure that observations are calibrated and compatible.
@@ -129,7 +129,7 @@ Because the variations in target spectral radiance of interest are often small i
 > The NESR of a scanner system is defined as _**the amount of change in spectral radiance required to produce a signal equivalent to the system’s noise**_. Stated another way, this is the quantity of spectral radiance that produces a signal-to-noise ratio of unity. An input radiance change that will produce an output signal equal to the noise (SNR = 1) is the minimum detectable change in radiance level. Thus, NESR is the minimum detectable radiance and is defined as the resolution of the system.
 
 
-The code showing the procedure is shown in the directory [Photometric Correction](#Dataset/02_NIMS_errors.md) it will be explained how this correction was applied in the data. 
+The code showing the procedure is shown in the directory [Photometric Correction](#Instrument_Observations_and_Dataset/02_NIMS_errors.md) it will be explained how this correction was applied in the data. 
 
 ---
 
