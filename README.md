@@ -129,7 +129,7 @@ Because the variations in target spectral radiance of interest are often small i
 > The NESR of a scanner system is defined as _**the amount of change in spectral radiance required to produce a signal equivalent to the system’s noise**_. Stated another way, this is the quantity of spectral radiance that produces a signal-to-noise ratio of unity. An input radiance change that will produce an output signal equal to the noise (SNR = 1) is the minimum detectable change in radiance level. Thus, NESR is the minimum detectable radiance and is defined as the resolution of the system.
 
 
-The code showing the procedure is shown in the directory [Photometric Correction](#Instrument_Observations_and_Dataset/02_NIMS_errors.md) it will be explained how this correction was applied in the data. 
+The code showing the procedure is shown in the directory [NIMS instrumental errors](#Instrument_Observations_and_Dataset/02_NIMS_errors.md) it will be explained how this correction was applied in the data. 
 
 ---
 
