@@ -1,3 +1,5 @@
+### Photometric correction
+
 The application of a photometric correction is an essential step in obtaining a map expressing the surface variability in terms of composition and physical state. A sphere of uniform albedo illuminated by a point-like source (i.e., the Sun) appears to have varying brightness, with brightness dropping off toward the edge of the disk. In fact, the brightness of an object depends on the intrinsic properties of the surface materials (composition, grain size, roughness, porosity etc.) and the surface shape, but _also_ on the geometry of illumination and observation. To compare surface spectral reflectance from one region to another observed under different geometries, and interpreting the composition based on laboratory measurements (taken at geometries different from the planetary observations), a pixel-by-pixel photometric correction is required to convert the calibrated radiance factor I/F into **spectral reflectance**. 
 
 The correction takes the form:
