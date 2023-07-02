@@ -281,7 +281,6 @@ These laboratory spectra can be separated in three types: **(i)** H2O-ice, **(ii
 
 As the main objective of this study is to get an overview of the chemistry across Ganymede’s surface, the spectral modeling has to be performed on every pixel to obtain abundance maps. These maps will provide information of the uppermost millimeters-thick surface layer about the distribution on the different endmembers used in the model.
 
----
 
 The code showing the spectral unmixing procedure is shown in the directory [Linear Mixture Spectral Modeling](Linear_Mixture_Spectral_Modeling/Linear_unmixing.md).
 
@@ -289,4 +288,33 @@ The code showing the spectral unmixing procedure is shown in the directory [Line
 ---
 
 ### Compositional Maps
+
+For implementing the [spectral algorithm](#linear-mixture-spectral-modeling) described before, we use the Python module [PySptools](https://pysptools.sourceforge.io/index.html). Specifically, we use the **Fully Constrained Least Squared algorithm** to generate and plot abundance maps. This algorithm performs fully constrained (NC and SC) least squares of each pixel in the data using the endmember signatures of the spectral library. This produces abundance distributions for each sampled location to create maps of best-estimate abundances for different species, delivering compositional information of the uppermost mm-thick surface layer.
+
+We applied the linear mixture model to the spectra of the selected regions of interest, presented [here](#regions-of-interest). We adopt an iterative approach to unmixing, starting with a small set of endmembers and then increasing to a larger set to improve the fit, modeling the spectra with different combinations of the endmembers. The quality of the fit is evaluated by a visual, qualitative comparison of the model and measured spectra, and is quantified by the chi-squared value. 
+
+---
+#### Best-fit unmixing: thirteen end-members
+The model that results in the best match to the Ganymede spectrum is composed of thirteen endmembers belonging to four different mineralogical families: (i) H2O-ice; (ii) a darkening agent; (iii) sulfuric acid hydrate; and (iv) salts, one Mg-sulfate (hexahydrite), one Na/Mg-sulfate (bloedite), one Na-sulfate (mirabilite), one Mg-chloride (bischofite), two halides (hydrohalite and ammonium chloride) and two carbonates (natrite and thermonatrite). Mixtures of these thirteen endmembers provide satisfactory fits of most of the regions of interest considered in our study, with the greatest discrepancies visible for Osiris crater. Best fits from four representative regions of interest are shown in the Figure, together with the predicted abundance distributions. 
+
+<img width="491" alt="image" src="https://github.com/gransss/Master_thesis/assets/136255551/f608f5e5-9106-4ae6-8934-0189013f4f39">
+
+Numerical values for all the seven regions of interest are provided in the following Table:
+
+<img width="503" alt="image" src="https://github.com/gransss/Master_thesis/assets/136255551/83f7e639-a310-46e7-99d1-93f89272de9f">
+
+> **Spectrally flat material**. In terms of abundances, the spectral modeling of NIMS data showcases the dominance of dark non-ice material over all the other species on Ganymede’s surface, ranging from 5 − 10% to almost 90%, with a mean value of 61.2%. On a regional scale, this darkening agent shows a considerable concentration in the geologically older dark terrains, with abundances reaching over 80% in some zones of the Galileo and Marius Regiones.
+
+> **Water ice**. The way H2O-ice is distributed across Ganymede’s surface largely corresponds to variations in the albedo as seen in the Galileo/SSI optical images. As already found by [Ligier et al., 2019] and [King et al., 2022], the total H2O-ice abundance map (composed of the sum of the different grain sizes we considered) is highly anti-correlated to the dark component’s abundance map, with highest abundance in geologically young bright terrain and visually bright craters where impact events have excavated and exposed relatively clean and contaminated ice form Ganymede’s crust. The highest abundance almost reaches 45% at Osiris crater and Babylon Sulci, and thus dominates their spectral signature. In contrast, the regiones of the dark ancient terrain show the lowest amount of H2O-ice, expressed by a low visible albedo and strongly reduced H2O-ice signature because of the presence of visually darker non-ice material. There are differences in terms of spatial distribution between the different grain sizes of the H2O-ice. The known trend of increasing ice abundance with increasing latitude (with an enrichment at Ganymede’s higher latitudes, often referred to as polar caps) has been found to be accompanied by a decreasing in H2O-ice grain size, with grains smaller than 10 μm being prevalent in the polar regions, whereas large grain sizes (500 μm - 1 mm) are found in the equatorial regions [Stephan et al., 2020], [Ligier et al., 2019], [King et al., 2022]. This can be only partially found in the abundance maps shown in Figure 3.16. Greatest discrepancies are found for the large grain size map (200 μm in our study), which shows an unexpected distribution differing from the results found by Ligier and King.
+
+> **Sulfuric acid**. In contrast to Europa, Ganymede’s sulfuric acid hydrate abundance is quite low, just below 2% overall, and its inhomogeneous distribution is globally known to be characterized by a latitudinal gradient, with abundance increasing with increasing latitude suggesting an exogenic origin [Ligier et al., 2019]. Overall, the spatial distribution is uneven and not correlated with geomorphology.
+
+> **Salts**. The suggested species have a low mean total abundance about 20%. Qualitatively, the total salt abundance map does not show clear correlation with any other maps previously presented. As with previous analyses of NIMS observations [McCord et al., 2002], [Dalton, 2007], [Shirley et al., 2010], Mg- and Na-bearing sulfates and chlorides salts appear to be the main endogenous species on Ganymede’s surface. Abundance maps of the studied surface seem to imply that the highest abundances in Mg-sulfate MgSO4 · 6 H2O (hexahydrite) largely coincide with extensively tectonically resurfaced portions of Ganymede’s bright terrain, together with the bright Osiris crater. Some areas of Uruk and Sippar Sulci, together with the southern portion of Xibalba Sulcus and Babylon Sulci in Ganymede’s leading hemisphere, appear to be the richest areas for hexahydrite. Concerning the distributions of the other three most-abundant salt species: Na2Mg(SO4)2·4H2O (bloedite), NaSO4 · 10 H2O (mirabilite), and NaCl · 2 H2O (hydrohalite), they also seem to be associated with younger bright terrain (except for mirabilite), but they also appear slightly correlated with high-latitude regions, potentially associated with energetic exogenic processes. The abundance maps of the other salts considered in the modeling (bischofite, ammonium chloride and two carbonates) show that their distribution correlates just locally with specific spots distributed all over the studied area. No correlation with the geomorphology (regional scale) is evident.
+
+
+The best-estimate abundance maps are shown in the following Figure:
+
+<img width="490" alt="image" src="https://github.com/gransss/Master_thesis/assets/136255551/3591221c-41cb-41c0-8fcd-e99ede9a5cec">
+
+The code for the best-fit specetral unmixing and the compositional maps is shown in the directory [Compositional Maps](Compositional_Maps/Compositional_maps.md).
 
