@@ -362,8 +362,5 @@ plt.show()
 <img width="1027" alt="Screenshot 2023-06-24 alle 23 06 13" src="https://github.com/gransss/Master_thesis/assets/136255551/288c3398-e1e6-4057-ab7a-5c1c5819052d">
 
 
-#### Photometric correction for i<90° data
-
-
 
 
