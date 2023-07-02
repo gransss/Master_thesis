@@ -122,6 +122,7 @@ Because the variations in target spectral radiance of interest are often small i
 
 
 The code showing the procedure is shown in the directory [NIMS instrumental errors](Instrument_Observations_and_Dataset/02_NIMS_errors.md). The steps of the procedure are shown in the Figure: 
+
 <img width="502" alt="image" src="https://github.com/gransss/Master_thesis/assets/136255551/fecc5e24-9237-4e5a-99af-67fbf7065d2a">
 
 
@@ -171,6 +172,7 @@ plt.show()
 g1g002_MASK_ie = np.ma.masked_array(g1g002_akimov_adj, ~mask_ie_3D)
 max_refl = np.amax(g1g002_akimov)
 ```
+
 <img width="274" alt="image" src="https://github.com/gransss/Master_thesis/assets/136255551/75296447-df1c-4498-bc3e-ca7cfd13cdfa">
 
 > Mask the photometrically corrected, adjusted and smoothed data
@@ -203,6 +205,7 @@ max_refl = np.amax(g1g002_akimov[0])
 plot.set_clim(0, max_refl)
 plt.show()
 ```
+
 <img width="741" alt="image" src="https://github.com/gransss/Master_thesis/assets/136255551/b070fbfe-d1ad-497e-9e4f-4acee7d150de">
 
 
