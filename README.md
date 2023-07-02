@@ -291,7 +291,7 @@ The code showing the spectral unmixing procedure is shown in the directory [Line
 
 For implementing the [spectral algorithm](#linear-mixture-spectral-modeling) described before, we use the Python module [PySptools](https://pysptools.sourceforge.io/index.html). Specifically, we use the **Fully Constrained Least Squared algorithm** to generate and plot abundance maps. This algorithm performs fully constrained (NC and SC) least squares of each pixel in the data using the endmember signatures of the spectral library. This produces abundance distributions for each sampled location to create maps of best-estimate abundances for different species, delivering compositional information of the uppermost mm-thick surface layer.
 
-We applied the linear mixture model to the spectra of the selected regions of interest, presented [here](#regions-of-interest). We adopt an iterative approach to unmixing, starting with a small set of endmembers and then increasing to a larger set to improve the fit, modeling the spectra with different combinations of the endmembers. The quality of the fit is evaluated by a visual, qualitative comparison of the model and measured spectra, and is quantified by the chi-squared value. 
+We applied the linear mixture model to the spectra of the [selected regions of interest](#regions-of-interest). We adopt an iterative approach to unmixing, starting with a small set of endmembers and then increasing to a larger set to improve the fit, modeling the spectra with different combinations of the endmembers. The quality of the fit is evaluated by a visual, qualitative comparison of the model and measured spectra, and is quantified by the chi-squared value. 
 
 ---
 #### Best-fit unmixing: thirteen end-members
