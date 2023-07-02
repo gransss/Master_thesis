@@ -72,7 +72,7 @@ Some useful, recurring functions which are used in the code. They are found in t
 
 ---
 
-### Instrument, Observations and Dataset
+### Observations and Dataset
 
 > After the Jupiter orbit insertion (JOI) maneuver, on December 7, 1995 Galileo began its primary mission, a two-year study of the Jovian system. Galileo traveled around Jupiter in elongated ovals—each orbit lasted about two months. The orbits were designed for close-up flybys of Jupiter’s largest moons: the orbiter tour included four close encounters with Ganymede, three with Europa, and three with Callisto.
 
