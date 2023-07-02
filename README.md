@@ -1,5 +1,5 @@
 # Master_thesis
-This repository contains the works of Gaetano Granatelli for his Master's thesis at Sapienza University of Rome, titled "Surface composition of Jupiter’s icy moon Ganymede: clues about habitability through spectral unmixing".
+This repository contains the work of Gaetano Granatelli for his Master's thesis at Sapienza University of Rome, titled "_Surface composition of Jupiter’s icy moon Ganymede: clues about habitability through spectral unmixing_".
 
 ## Table of contents
 * [Introduction](#introduction)
