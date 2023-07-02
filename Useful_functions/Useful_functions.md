@@ -231,3 +231,211 @@ def find_YX_from_LatLon(lat_value, lon_value):
 def NormalizeData(data):
     return (data - np.nanmin(data)) / (np.nanmax(data) - np.nanmin(data))
 ```
+
+---
+
+Data projection on equirectangular map
+
+```Python
+def EQUIRECT_PROJ_and_PLOT(data):
+    """ Project the data on equirectangular map and plot them """
+    
+    # """ Prepare the data for the projection """
+    # """ LONGITUDES """
+    LON = LONGITUDES.copy()
+    LON[ np.where(~mask_ie == True) ] = np.nan
+
+    # """ LATITUDES """
+    LAT = LATITUDES.copy()
+    LAT[ np.where(~mask_ie == True) ] = np.nan
+    
+    # """ Project the data on equirectangular map """
+    map_img, long_arr, lat_arr = tools.mapping.longlat_to_map(data, LON, LAT, method='linear', ppd=1, visualise=False, 
+                                                              obs_long=LON[60,50], print_progress=True)
+    
+    # """ Useful mask """
+    for_mask = map_img.copy()
+    for_mask[ for_mask > 0.] = 0.
+    MASK = np.isnan(for_mask[0])
+
+    # """ Plot """
+    img_mappa = np.array(Image.open("Ganymede_Voyager_GalileoSSI.jpg"))
+    fig, ax = plt.subplots(figsize=(16,10))
+    ax.set_xlim(360,0)
+    ax.set_ylim(-90,90)
+    major_ticksx = (360,270,180,90,0)
+    minor_ticksx = np.arange(0,360,10)
+    x_ticks_labels = ('360°W','270°W','180°W','90°W','0°W') 
+    y_ticks_labels = ('-90°N','0°N','90°N') 
+    major_ticksy = (-90,0,90)
+    minor_ticksy = np.arange(-90,90,10)
+    ax.set_xticks(major_ticksx)
+    ax.set_xticks(minor_ticksx, minor=True)
+    ax.set_xticklabels(x_ticks_labels)
+    ax.set_yticks(major_ticksy)
+    ax.set_yticks(minor_ticksy, minor=True)
+    ax.set_yticklabels(y_ticks_labels)
+    ax.imshow(img_mappa, extent=(360,0,-90,90))
+    plot = ax.imshow(map_img[0,:,:], alpha=0.75, cmap=cm.turbo, extent=(0,360,90,-90)) 
+    cbar = plt.colorbar(plot, ax=ax, shrink=0.5, pad=0.02)
+    cbar.ax.set_title('Refl.', fontsize=10)
+    max_refl = np.amax(data)
+    plot.set_clim(0, max_refl)
+    #ax.text(270, 85, 'T R A I L I N G    H E M I S P H E R E', c='white', alpha=0.75, fontsize=12, ha='center', va='center')
+    #ax.text(90, 85, 'L E A D I N G    H E M I S P H E R E', c='white', alpha=0.75, fontsize=12, ha='center', va='center')
+    plt.show()
+    return
+```
+
+```Python
+def EQUIRECT_PROJ(data):
+    """ Project the data on equirectangular map """
+    
+    # """ Prepare the data for the projection """
+    # """ LONGITUDES """
+    LON = LONGITUDES.copy()
+    LON[ np.where(~mask_ie == True) ] = np.nan
+
+    # """ LATITUDES """
+    LAT = LATITUDES.copy()
+    LAT[ np.where(~mask_ie == True) ] = np.nan
+    
+    # """ Project the data on equirectangular map """
+    map_img, long_arr, lat_arr = tools.mapping.longlat_to_map(data, LON, LAT, method='linear', ppd=1, visualise=False, 
+                                                              obs_long=LON[60,50], print_progress=True)
+    
+    return map_img
+```
+
+```Python
+def EQUIRECT_PROJ_raw(data):
+    """ Project the (original, not masked) data on equirectangular map """
+    
+    # """ Prepare the data for the projection """
+    mask_plot = (LONGITUDES>60)&(LONGITUDES<250)
+    #mask_plot = (INCIDENCE_ANGLES>0)&(INCIDENCE_ANGLES<80)&(EMISSION_ANGLES>0)&(EMISSION_ANGLES<80)
+    # """ LONGITUDES """
+    LON = LONGITUDES.copy()
+    #LON[ np.where(LON == np.NINF) ] = np.nan
+    LON[ np.where(~mask_plot == True) ] = np.nan
+
+    # """ LATITUDES """
+    LAT = LATITUDES.copy()
+    #LAT[ np.where(LAT == np.NINF) ] = np.nan
+    LAT[ np.where(~mask_plot == True) ] = np.nan
+    
+    # """ Project the data on equirectangular map """
+    map_img, long_arr, lat_arr = tools.mapping.longlat_to_map(data, LON, LAT, method='linear', ppd=1, visualise=False, 
+                                                              obs_long=LON[60,50], print_progress=True)
+    
+    return map_img
+```
+
+```Python
+def Ganymede_plot(ax):
+    img_mappa = np.array(Image.open("Ganymede_Voyager_GalileoSSI.jpg"))
+    ax.set_xlim(360,0)
+    ax.set_ylim(-90,90)
+    major_ticksx = (360,270,180,90,0)
+    minor_ticksx = np.arange(0,360,10)
+    x_ticks_labels = ('360°W','270°W','180°W','90°W','0°W') 
+    y_ticks_labels = ('-90°N','0°N','90°N') 
+    major_ticksy = (-90,0,90)
+    minor_ticksy = np.arange(-90,90,10)
+    ax.set_xticks(major_ticksx)
+    ax.set_xticks(minor_ticksx, minor=True)
+    ax.set_xticklabels(x_ticks_labels)
+    ax.set_yticks(major_ticksy)
+    ax.set_yticks(minor_ticksy, minor=True)
+    ax.set_yticklabels(y_ticks_labels)
+    ax.imshow(img_mappa, extent=(360,0,-90,90))
+    ax.text(270, 85, 'T R A I L I N G    H E M I S P H E R E', c='white', alpha=0.75, fontsize=12, ha='center', va='center')
+    ax.text(90, 85, 'L E A D I N G    H E M I S P H E R E', c='white', alpha=0.75, fontsize=12, ha='center', va='center')
+    ax.grid(alpha=0.1, which='minor')
+    ax.grid(alpha=0.3, which='major')
+    return
+```
+
+```Python
+def EQUIRECT_PLOT(ax, data):
+    """ Plot the data on equirectangular map """
+    img_mappa = np.array(Image.open("Ganymede_Voyager_GalileoSSI.jpg"))
+    ax.set_xlim(360,0)
+    ax.set_ylim(-90,90)
+    major_ticksx = (360,270,180,90,0)
+    minor_ticksx = np.arange(0,360,10)
+    x_ticks_labels = ('360°W','270°W','180°W','90°W','0°W') 
+    y_ticks_labels = ('-90°N','0°N','90°N') 
+    major_ticksy = (-90,0,90)
+    minor_ticksy = np.arange(-90,90,10)
+    ax.set_xticks(major_ticksx)
+    ax.set_xticks(minor_ticksx, minor=True)
+    ax.set_xticklabels(x_ticks_labels)
+    ax.set_yticks(major_ticksy)
+    ax.set_yticks(minor_ticksy, minor=True)
+    ax.set_yticklabels(y_ticks_labels)
+    #ax.text(270, 85, 'T R A I L I N G    H E M I S P H E R E', c='white', alpha=1, fontsize=12, ha='center', va='center')
+    #ax.text(90, 85, 'L E A D I N G    H E M I S P H E R E', c='white', alpha=1, fontsize=12, ha='center', va='center')
+    ax.imshow(img_mappa, extent=(360,0,-90,90))
+    plot = ax.imshow(data[0,:,:], alpha=0.75, cmap=cm.turbo, extent=(0,360,90,-90)) 
+    #ax.imshow(~MASK, cmap=cm.gray, extent=(0,360,90,-90), alpha=0.1)
+    cbar = plt.colorbar(plot, ax=ax, location='bottom',fraction=0.036, pad=0.1, shrink=0.5)
+    cbar.ax.set_title('Reflectance', fontsize=10)
+    max_refl = np.amax(g1g002_MASK_ie)
+    plot.set_clim(0, max_refl)
+    answer = input('Do you want to plot the ROIs?')
+    if answer == 'yes':
+        for i in range(len(LL['yx'])):
+            ax.scatter(ROI['geographic coordinates'][i][1],ROI['geographic coordinates'][i][0], s=70, lw=2, c=colors[i], marker='x', label=str(ROI['names'][i])+' {}'.format(LL['yx'][i]))
+        ax.legend(frameon=False)
+        plt.show()
+    else: 
+        plt.show()
+    return
+```
+
+```Python
+def abund_EQUIRECT_PROJ_and_PLOT(ax, data, cmap, alpha):
+    """ Project the data on equirectangular map and plot them """
+    
+    # """ Prepare the data for the projection """
+    # """ LONGITUDES """
+    LON = LONGITUDES.copy()
+    LON[ np.where(~mask_ie == True) ] = np.nan
+
+    # """ LATITUDES """
+    LAT = LATITUDES.copy()
+    LAT[ np.where(~mask_ie == True) ] = np.nan
+    
+    # """ Project the data on equirectangular map """
+    map_img, long_arr, lat_arr = tools.mapping.longlat_to_map(data, LON, LAT, method='linear', ppd=1, visualise=False, 
+                                                              obs_long=LON[60,50], print_progress=True)
+    
+    # """ Plot """
+    img_mappa = np.array(Image.open("Ganymede_Voyager_GalileoSSI.jpg"))
+    ax.set_xlim(360,0)
+    ax.set_ylim(-90,90)
+    major_ticksx = (360,270,180,90,0)
+    minor_ticksx = np.arange(0,360,10)
+    x_ticks_labels = ('360°W','270°W','180°W','90°W','0°W') 
+    y_ticks_labels = ('-90°N','0°N','90°N') 
+    major_ticksy = (-90,0,90)
+    minor_ticksy = np.arange(-90,90,10)
+    ax.set_xticks(major_ticksx)
+    ax.set_xticks(minor_ticksx, minor=True)
+    ax.set_xticklabels(x_ticks_labels)
+    ax.set_yticks(major_ticksy)
+    ax.set_yticks(minor_ticksy, minor=True)
+    ax.set_yticklabels(y_ticks_labels)
+    #ax.text(270, 85, 'T R A I L I N G    H E M I S P H E R E', c='white', alpha=0.75, fontsize=12, ha='center', va='center')
+    #ax.text(90, 85, 'L E A D I N G    H E M I S P H E R E', c='white', alpha=0.75, fontsize=12, ha='center', va='center')
+    ax.imshow(img_mappa, extent=(360,0,-90,90))
+    plot = ax.imshow(map_img, alpha=alpha, cmap=cmap, extent=(0,360,90,-90))
+    #ax.imshow(~MASK, cmap=cm.gray, extent=(0,360,90,-90), alpha=0.1)
+    cbar = plt.colorbar(plot, ax=ax, shrink=0.5, pad=0.02)
+    cbar.ax.set_title('Ab.(%)', fontsize=10)
+    max_refl = np.amax(data)
+    plot.set_clim(0, max_refl)
+
+    return
+```
