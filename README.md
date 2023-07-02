@@ -3,7 +3,7 @@ This repository contains the works of Gaetano Granatelli for his Master's thesis
 
 ## Table of contents
 * [Introduction](#Introduction)
-* [Spectral Unmixing](#Spectral-Unmixing)
+* [Spectral Unmixing](#spectral-unmixing)
 
 ---
 
@@ -17,15 +17,15 @@ _**Methods**_. The Galileo/NIMS mosaic, in units of calibrated radiance factor (
 ---
 	
 ## Spectral Unmixing
-Section ["Observations and Dataset"](#Observations-and-Dataset) introduces the hyperspectral dataset from the Galileo/NIMS instrument. Data are read, displayed and processed in Python. Section ["Description of Spectral Features"](#Description-of-Spectral-Features) and Section ["Regions Of Interest"](#Regions-Of-Interest) provide descriptions of selected spectra from specific regions of interest, well-representative of the spectral diversity of the surface. This set of spectra is the one given to the linear spectral mixing model described in Section ["Linear Mixture Spectral Modeling"](#Linear-Mixture-Spectral-Modeling) for abundance retrieval. We will rely on an existing database of laboratory reference spectra, acquired at a temperature representative of the studied surface, to decompose the measured spectral profiles into a limited number of components and their relative abundances. Finally, Section ["Compositional Maps"](#Compositional-Maps) presents best-estimate abundance values of the dif- ferent endmembers identified by the model, providing maps describing the chemical composition of the uppermost millimeter-thick surface layer. 
+Section ["Observations and Dataset"](#observations-and-dataset) introduces the hyperspectral dataset from the Galileo/NIMS instrument. Data are read, displayed and processed in Python. Section ["Description of Spectral Features"](#description-of-spectral-features) and Section ["Regions Of Interest"](#regions-of-interest) provide descriptions of selected spectra from specific regions of interest, well-representative of the spectral diversity of the surface. This set of spectra is the one given to the linear spectral mixing model described in Section ["Linear Mixture Spectral Modeling"](#linear-mixture-spectral-modeling) for abundance retrieval. We will rely on an existing database of laboratory reference spectra, acquired at a temperature representative of the studied surface, to decompose the measured spectral profiles into a limited number of components and their relative abundances. Finally, Section ["Compositional Maps"](#compositional-maps) presents best-estimate abundance values of the dif- ferent endmembers identified by the model, providing maps describing the chemical composition of the uppermost millimeter-thick surface layer. 
 
 ### Pipeline
-* [Useful functions](#Useful-functions)
-* [Observations and Dataset](#Observations-and-Dataset)
-* [Description of Spectral Features](#Description-of-Spectral-Features)
-* [Regions Of Interest](#Regions-Of-Interest)
-* [Linear Mixture Spectral Modeling](#Linear-Mixture-Spectral-Modeling)
-* [Compositional Maps](#Compositional-Maps)
+* [Useful functions](#useful-functions)
+* [Observations and Dataset](#observations-and-dataset)
+* [Description of Spectral Features](#description-of-spectral-features)
+* [Regions Of Interest](#regions-of-interest)
+* [Linear Mixture Spectral Modeling](#linear-mixture-spectral-modeling)
+* [Compositional Maps](#compositional-maps)
 
 The Python packages required for running all functions are:
 
@@ -97,7 +97,7 @@ The natural output of an imaging spectrometer like NIMS is a **hyperspectral dat
 | g1g002ci.qub.geo | File containing the so called 'backplanes', concerning geometrical parameters of the planetary observation. |
 | g1g002ci.qub.geo.hdr | Header information relative to the file _g1g002ci.qub.geo_|
 
-The code processing the hyperspectral data cube G1GNGLOBAL01A1 is found in the directory [Dataset](#Instrument_Observations_and_Dataset/01_Dataset.md).
+The code processing the hyperspectral data cube G1GNGLOBAL01A1 is found in the directory [Dataset](Instrument_Observations_and_Dataset/01_Dataset.md).
 
 ---
 
@@ -106,19 +106,12 @@ Spatially, the cube is composed of 228 images, each one composed of 120 × 100 p
 <img width="487" alt="image" src="https://github.com/gransss/Master_thesis/assets/136255551/92fee51e-89ed-4ab6-8cd0-16fadb2b2b39">
 
 > The _calibrated_ radiance factor, indicated with **I/F**, is the ratio between the radiance measured by the instrument on the target and the solar radiance scaled for the heliocentric distance of the target expressed in AU. In this way, I/F is a dimensionless quantity describing the reflectivity of a target as a function of wavelength, having automatically excluded the spectral signatures of solar nature. 
-> **I/F is _not_ a reflectance**, since it does not account for **_photometric effects_** due to the peculiar illumination/observation geometry, and moreover it can include the target’s thermal emission (which however is negligible for Ganymede up to 5 micrometers). In the Section [Photometric Correction](##Instrument_Observations_and_Dataset/03_Photometric_correction.md) it will be explained how this correction was applied in the data. 
+> **I/F is _not_ a reflectance**, since it does not account for **_photometric effects_** due to the peculiar illumination/observation geometry, and moreover it can include the target’s thermal emission (which however is negligible for Ganymede up to 5 micrometers). In the Section [Photometric Correction](Instrument_Observations_and_Dataset/03_Photometric_correction.md) it will be explained how this correction was applied in the data. 
 
 
 [^note2]: The data reduction routine transforms the raw observations into cleaned and calibrated data sets that are ready for scientific use. The reduction accounts for detector properties and observation conditions to ensure that observations are calibrated and compatible.
 
 ---
-
-
-
-
-
-
-
 
 
 **NIMS instrumental errors**
@@ -129,13 +122,17 @@ Because the variations in target spectral radiance of interest are often small i
 > The NESR of a scanner system is defined as _**the amount of change in spectral radiance required to produce a signal equivalent to the system’s noise**_. Stated another way, this is the quantity of spectral radiance that produces a signal-to-noise ratio of unity. An input radiance change that will produce an output signal equal to the noise (SNR = 1) is the minimum detectable change in radiance level. Thus, NESR is the minimum detectable radiance and is defined as the resolution of the system.
 
 
-The code showing the procedure is shown in the directory [NIMS instrumental errors](#Instrument_Observations_and_Dataset/02_NIMS_errors.md) it will be explained how this correction was applied in the data. 
+The code showing the procedure is shown in the directory [NIMS instrumental errors](Instrument_Observations_and_Dataset/02_NIMS_errors.md).
 
 ---
 
 #### Photometric correction for i<90° data
 
+The application of a photometric correction is an essential step in obtaining a map expressing the surface variability in terms of composition and physical state. A sphere of uniform albedo illuminated by a point-like source (i.e., the Sun) appears to have varying brightness, with brightness dropping off toward the edge of the disk. In fact, the brightness of an object depends on the intrinsic properties of the surface materials (composition, grain size, roughness, porosity etc.) and the surface shape, but _also_ on the geometry of illumination and observation. To compare surface spectral reflectance from one region to another observed under different geometries, and interpreting the composition based on laboratory measurements (taken at geometries different from the planetary observations), a pixel-by-pixel photometric correction is required to convert the calibrated radiance factor I/F into **spectral reflectance**. The correction takes the form:
 
+`Corrected image = Image in units of I/F × Photometric model`
+
+Several models have been developed: in this study we adapt the approach of Shkuratov et al., which uses the Akimov model to correct the radiance factor I/F in NIMS observations for photometric effects. The steps of the procedure are shown in the directory [Photometric Correction](Instrument_Observations_and_Dataset/03_Photometric_correction.md).
 
 
 
