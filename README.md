@@ -268,7 +268,7 @@ The schematic diagram of the hyperspectral unmixing process is shown in the Figu
 
 #### Spectral library
 
-The full list of endmembers in our spectral library is given in the following Table, and selected spectra are shown in Figure 3.14. 
+The full list of endmembers in our spectral library is given in the following Table, and selected spectra are shown in the Figure. 
 
 <img width="576" alt="image" src="https://github.com/gransss/Master_thesis/assets/136255551/8cc56431-c062-4a2c-bf7c-3f3af6a24337">
 
