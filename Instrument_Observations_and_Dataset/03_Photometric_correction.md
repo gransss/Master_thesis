@@ -6,7 +6,7 @@ The correction takes the form:
 
 Several models have been developed: in this study we adapt the approach of Shkuratov et al. which uses the Akimov model to correct the radiance factor I/F in NIMS observations for photometric effects. The steps of the procedure are shown in the Figure:
 
-<img width="538" alt="image" src="https://github.com/gransss/Master_thesis/assets/136255551/a7bfdd36-d89f-4bb9-bb8b-4daee4c7ffb3">
+<img width="539" alt="image" src="https://github.com/gransss/Master_thesis/assets/136255551/0767543d-0f8b-486f-b136-a18c2293d4f9">
 
 ---
 
@@ -118,6 +118,11 @@ PHOTOMETRIC CORRECTION - **Akimov disk function**
 * mu_0 = cos(e)
 * phi = phase angle
 
+The photometric correction can be described as a product of a disk function D(i,e,phi), describing how reflectance varies over the surface at a constant phase angle, and a phase function A(phi, lambda), describing the phase dependence of the surface reflectance. 
+
+The **Akimov model** has the advantage of a disk function that minimizes limb brightening as the emission angle approaches 90°. The phase function A(phi,lambda) for the studied dataset is negligible due to the favorable geometry of illumination of the NIMS observation. In fact, the phase angle ∼ 30° is comparable to the illumination geometry of laboratory measurements used for the spectral unmixing. 
+
+
 ```Python
 mu = []         # cos of incidence angle
 mu_0 = []       # cos of emission angle
@@ -173,7 +178,7 @@ plt.show()
 Akimov disk function:
 <img width="417" alt="image" src="https://github.com/gransss/Master_thesis/assets/136255551/ee5be628-0db0-4eb8-933f-9397b0a3817c">
 
-where:
+where the **photometric latitude β** and **longitude γ** are photometric parameters calculated following Kreslavsky et al., 2000. The scattering plane is defined as the plane containing the source, surface point, and an observer. The photometric latitude is the angle between the surface normal and that plane. The photometric longitude is the angle in the scattering plane between the projection of the surface normal and the vector from the surface point to the observer. In particular: 
 <img width="767" alt="image" src="https://github.com/gransss/Master_thesis/assets/136255551/af0c5172-7b0c-4672-9701-525403e4f0cc">
 
 ```Python
@@ -284,6 +289,7 @@ hsi_image(ax1, 'G1GNGLOBAL01A (0.7-$\mu m$ image)\nRadiance Factor $I/F$', np.ma
 hsi_image(ax2, 'G1GNGLOBAL01A (0.7-$\mu m$ image)\nReflectance', np.ma.masked_array(g1g002_akimov, ~mask_i_3D), 0, 'Reflectance')
 plt.show()
 ```
+The photometric correction is then applied to the data cube to obtain the geometrically corrected radiance factor, or **reflectance**. A comparison between NIMS 0.7-micrometer image before and after the correction is shown in the Figure.
 <img width="742" alt="image" src="https://github.com/gransss/Master_thesis/assets/136255551/86b0fe57-9801-4c46-ab26-defa019069b7">
 
 > Mean and median
