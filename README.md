@@ -231,10 +231,60 @@ To determine the most suitable laboratory reference spectra to be used as inputs
 > There are spectral indicators for the physical state of H2O ice. On Ganymede’s surface H2O can exists in three distinct solid configurations (amorphous, cubic, hexagonal) depending on the condensation temperature, condensation rate, and temperature history. In near-infrared spectra, crystalline and amorphous H2O ice can be distinguished from each other by the combined analysis of the depth of the absorption at 1.65-μm, the shape and band position of the absorption at 2 μm, and the strength and shape of the 3.1-μm reflectance peak. In case of both, amorphous and crystalline H2O ice, present on an icy surface a shift in the wavelength positions of the H2O ice absorptions should be apparent. In addition, amorphous H2O ice is often indicated by a weak or absent absorption at 1.65 μm and a suppressed Fresnel reflection peak at 3.1 μm. However, increasing temperatures and decreasing grains sizes have similar effects on spectra of crystalline H2O ice; and differences in the band position of the strong absorption at 1.5 and 2 μm are only visible, when these absoprtions are not affected by saturation as observed for large particle sizes (> 500 μm) or by unsuspected presence of a component of non-ice but hydrated material.
 
 
+The code showing the extraction of the set of spectra from selected regions of interest on Ganymede is shown in the directory [Regions Of Interest](Regions_of_interest/ROI.md).
+
 
 ---
 
 ### Linear Mixture Spectral Modeling
+
+After studying the spectral diversity of Ganymede’s surface qualitatively, the next step consists in getting quantitative estimates of the surface composition through spectral modeling. **Linear spectral unmixing** is a deconvolution technique based on the principle that each measured spectrum is a linear combination of spectra of different species, each species assumed to be present in a specific mixture with a relative concentration. The technique uses a library of laboratory reference spectra (acquired at a temperature representative of the studied surface) to perform a best fit of the spectra, and it eventually reduces to an optimisation problem where the spectral library `E` is used to decompose a target spectrum `Y` into `q` components and their relative abundance `a`.
+
+We use such a linear spectral modeling to fit the observed spectra of the selected regions of interest, with the aim to produce compositional maps of Ganymede’s observed region. We treat each pixel’s observed spectrum as a linear combination of discrete endmembers `E_j(λ)` with respective abundances `a_j`, where the modeled spectrum `Y_i` for the _i_-th pixel in the image is calculated as:
+
+<img width="253" alt="image" src="https://github.com/gransss/Master_thesis/assets/136255551/e1291b69-91b9-4f6e-add2-8487a79c2400">
+
+where:
+* `N` is the number of pixels in the image
+* `q` is the number of endmembers
+* `a_ij` is the abundance of the j-th endmember in the i-th pixel
+* `E_j` is the spectral signature of the j-th endmember
+* `Y_i` is the spectral signature of the i-th pixel
+
+The abundances `a_j` are subject to two physical constraints: the non-negativity constraint (**NC**) which ensures that the individual abundances are all physically realistic values (0% to 100%), and the sum-to-one constraint (**SC**) which ensures that the fractional abundance of the different endmembers sums to 100%:
+
+<img width="328" alt="image" src="https://github.com/gransss/Master_thesis/assets/136255551/443c3bb5-9cbb-4115-a914-d1536e93bd13">
+
+**Note**
+> Linear unmixing is a **first-order approach** which is valid as long as the observed spectrum for each pixel results in the spatial (hence linear) mixing of several spectral endmembers. This is the case for the observations of Europa and Ganymede, yielding relatively coarse spatial resolution (∼ 100 km). By definition, linear unmixing does not account for any nonlinear scattering that occurs in the uppermost mm-thick surface layer, which may therefore be responsible for some post-fitting residuals. Because H2O-ice and the non-ice materials can be intimately mixed at the grain scale, the most quantitative analysis of their spectral properties would require a comprehensive _radiative transfer modeling_ (Hapke, 2002). Fortunately, previous studies demonstrated that H2O-ice and non-ice surface materials on Ganymede occur in discrete patches, likely the result of cold-trapping of H2O-ice in patches and lag deposits of dark non-ice material through downslope mass-movement. Consequently, linear mixture modeling of these satellites’ surfaces is a useful approximation to investigate the quantitative estimates of the H2O-ice and non-ice abundance, and of H2O-ice particle size.
+
+
+The schematic diagram of the hyperspectral unmixing process is shown in the Figure: 
+
+<img width="490" alt="image" src="https://github.com/gransss/Master_thesis/assets/136255551/6ddb34f9-b034-41ed-8910-827512344d00">
+
+
+---
+
+#### Spectral library
+
+The full list of endmembers in our spectral library is given in the following Table, and selected spectra are shown in Figure 3.14. 
+
+<img width="576" alt="image" src="https://github.com/gransss/Master_thesis/assets/136255551/8cc56431-c062-4a2c-bf7c-3f3af6a24337">
+
+<img width="490" alt="image" src="https://github.com/gransss/Master_thesis/assets/136255551/ea5270bd-a976-49df-891d-ef94de252ba7">
+
+Most published laboratory spectra are acquired at room or Martian temperature, so cryogenic laboratory spectra acquired at temperatures relevant for the icy satellites of the outer Solar System are relatively uncommon. To be representative of Ganymede’s surface conditions (∼ 125 ± 25 K), for our library we considered only those cryogenic spectra acquired in a temperature range from 80 K to 160 K. 
+
+These laboratory spectra can be separated in three types: **(i)** H2O-ice, **(ii)** hydrated sulfuric acid [Carlson et al., 1999], and **(iii)** a variety of mineral salts such as sulfates, carbonates and chlorides salts [Dalton, 2007]. These compounds are known or expected to be present on the surface of Ganymede based on previous literature and models. Finally, another component is required for modeling: a **darkening agent**, spectrally flat over the entire wavelength range. This artificial endmember actually plays the role of the darkening, non-ice material in order to bring the modeled albedo levels to match those that are observed. 
+> Note that the sulfuric acid spectra do not cover wavelengths below 1 μm, so this limits our modeling to cover the 1–2.5 μm spectral range. Our spectral library includes all available laboratory spectra covering the Galileo/NIMS wavelength range measured in Ganymede-like conditions, and particular care was taken to ensure the inclusion of the various non-ice species detected in previous works. We also include ‘synthetic’ black and white spectra which are used to model spectrally-flat (e.g., silicate) material.
+
+As the main objective of this study is to get an overview of the chemistry across Ganymede’s surface, the spectral modeling has to be performed on every pixel to obtain abundance maps. These maps will provide information of the uppermost millimeters-thick surface layer about the distribution on the different endmembers used in the model.
+
+---
+
+The code showing the spectral unmixing procedure is shown in the directory [Linear Mixture Spectral Modeling](Linear_Mixture_Spectral_Modeling/Linear_unmixing.md).
+
 
 ---
 
